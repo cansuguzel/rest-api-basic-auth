@@ -29,7 +29,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"title\": \"My second note\",\r\n  \"content\": \"This is a sample\"\r\n}",
+					"raw": "{\r\n  \"title\": \"pay methods\",\r\n  \"content\": \"cash,credit card\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -171,7 +171,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"title\": \"My first note\",\r\n  \"content\": \"this is a changed message for put axample\"\r\n}",
+					"raw": "{\r\n  \"title\": \"shopping list\",\r\n  \"content\": \"cheese,olive \"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -179,7 +179,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/notes/5",
+					"raw": "http://localhost:5000/api/v1/notes/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -189,7 +189,7 @@
 						"api",
 						"v1",
 						"notes",
-						"5"
+						"3"
 					]
 				}
 			},
@@ -263,7 +263,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"Rana\",\r\n  \"password\": \"2468\"\r\n}",
+					"raw": "{\r\n  \"username\": \"Derya\",\r\n  \"password\": \"1357\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -359,7 +359,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/users/2",
+					"raw": "http://localhost:5000/api/v1/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -369,7 +369,7 @@
 						"api",
 						"v1",
 						"users",
-						"2"
+						"1"
 					]
 				},
 				"description": "get user by id"
@@ -406,7 +406,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/users/2",
+					"raw": "http://localhost:5000/api/v1/users/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -416,7 +416,7 @@
 						"api",
 						"v1",
 						"users",
-						"2"
+						"4"
 					]
 				}
 			},
@@ -463,6 +463,88 @@
 						"v1",
 						"users",
 						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "not your note",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "cansu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"sample\",\r\n  \"content\": \"cheese,olive \"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/notes/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"notes",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "self only",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "cansu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"derya\"\r\n  \"password\":\"1111\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"4"
 					]
 				}
 			},

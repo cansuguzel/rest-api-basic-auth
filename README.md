@@ -1,6 +1,6 @@
 # REST API with Basic Authentication
 
-This project provides two separate REST APIs developed with Python (Flask) and PostgreSQL. The APIs are protected with Basic Authentication.
+This project implements two separate RESTful APIs — one for user management and another for note management — built with Python (Flask) and PostgreSQL. All endpoints are secured using Basic Authentication.User passwords are securely hashed using Werkzeug before storing in the database.Access control and user authorization are managed via custom decorators (@basic_auth_required, @self_access_required, @owner_required) to enforce security consistently across endpoints.
 
 # Project Structure
 rest-api-basic-auth/
@@ -9,6 +9,7 @@ rest-api-basic-auth/
 │ ├── init.py
 │ ├── models.py
 │ ├── auth.py
+│ ├──decorators.py
 │ ├── routes/
 │ │ ├── init.py
 │ │ ├── users.py
@@ -41,7 +42,7 @@ pip install -r requirements.txt
 
 If you're using .env for DB connection:
 ```bash
-DATABASE_URL=postgresql://postgres:your_password@localhost:5432/not_sistemi
+DATABASE_URL=postgresql://postgres:your_password@localhost:5432/database_name
 ```
 (If you're directly editing config in code, this step is not required.)
 
@@ -57,21 +58,23 @@ python run.py
 ```
 API will run on: http://127.0.0.1:5000
 
-#  Authentication
+## Authentication
 All endpoints require Basic Auth:
+
 - Use the Authorization tab in Postman
 - Select Basic Auth
 - Provide your registered username and password
 
 You can test all endpoints using Postman.
+
 Go to Postman and set the Base URL:
    http://127.0.0.1:5000/api/v1/
 
 # User API Endpoints
 `POST /api/v1/users/`
 Add a new user.
- Requires authentication (you can remove this if you want open registration).
 Request: POST /api/v1/users/
+
 **Body: raw->json**
  ```json
 {
@@ -82,12 +85,27 @@ Request: POST /api/v1/users/
 Response:
  ```json
 {
-  "message": "Kayıt başarılı!"
+  "message": "Registration successful!"
+}
+```
+`POST /api/v1/users/login`
+This endpoint is only a test endpoint to verify your credentials
+Request: POST /api/v1/users/login
+ ```json
+{
+  "username": "cansu",
+  "password": "123456"
+}
+```
+Response:
+ ```json
+{
+   "message": "Login successful, welcome cansu!"
 }
 ```
 
 `GET /api/v1/users/` 
-Get all registered users.
+List all users (only if logged in).
 Request: GET /api/v1/users/
 Response:
  ```json
@@ -102,6 +120,7 @@ Response:
   }
 ]
  ```
+
 `GET /api/v1/users/<user_id>`
 Get details of a specific user by ID.
 Request: GET /api/v1/users/1
@@ -113,9 +132,8 @@ Response:
 }
  ```
 `PUT /api/v1/users/<user_id> `
-Update your own user information.
+Update your own account.
 
-⚠️ Only the logged-in user can update their own data.
 Request: PUT /api/v1/users/1
 Body:
  ```json
@@ -127,7 +145,7 @@ Body:
 Response:
  ```json
 {
-  "message": "Kullanıcı güncellendi.",
+  "message": "User updated.",
   "user": {
     "id": 1,
     "username": "cansu_updated"
@@ -136,7 +154,7 @@ Response:
  ```
  `DELETE /api/v1/users/<user_id>`
 Delete your own user account.
-⚠️ Only the user themselves can delete their account.
+
 Request: DELETE /api/v1/users/1
 Response:
 Status code: 204 No Content
@@ -168,12 +186,12 @@ Body:
 Response:
  ```json
 {
-  "message": "Not eklendi.",
+  "message": "Note added.",
   "note_id": 2
 }
  ```
 `GET /api/v1/notes/<note_id>`
-Get a specific note by ID.
+Get a specific note you own.
 Request: GET /api/v1/notes/1
 Response:
  ```json
@@ -184,7 +202,7 @@ Response:
 }
  ```
 `PUT /api/v1/notes/<note_id>`
-Update a note.
+Update your own note.
 Request: PUT /api/v1/notes/1
 Body:
  ```json
@@ -196,7 +214,7 @@ Body:
 Response:
  ```json
 {
-  "message": "Not güncellendi.",
+  "message": "Note updated.",
   "note": {
     "id": 1,
     "title": "Updated List",
@@ -206,7 +224,7 @@ Response:
  ```
 
 `DELETE /api/v1/notes/<note_id>`
-Delete a note.
+Delete your own note.
 
 Request: DELETE /api/v1/notes/1
 Response:
@@ -215,20 +233,31 @@ Status: 204 No Content
 ### Postman Collection
 A Postman collection file is included in this project for easy API testing.
 File:
-  Rest API Basic Auth.postman_collection.json
+  Rest API Basic Auth.postman_collection2.json
 This file contains sample requests for all endpoints, including proper authentication and body examples.
 How to Use:
  - Open Postman
  - Go to File → Import
- - Select the Rest API Basic Auth.postman_collection.json file from this project
+ - Select the Rest API Basic Auth.postman_collection2.json file from this project
  - Test the API endpoints easily with pre-filled data
 
 ### Database Info
 Database: PostgreSQL
+
 DB Name: not_sistemi
+
 Tables: user, note
+
 ORM: SQLAlchemy
 
+## Technologies Used
+- Python 
+- Flask
+- SQLAlchemy
+- PostgreSQL
+- Basic Authantication
+- Secure password hashing (`werkzeug.security`)
+- Postman (for test)
 
 ### Developer
  Name: Cansu Güzel

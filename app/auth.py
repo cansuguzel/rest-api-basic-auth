@@ -1,26 +1,25 @@
 from flask import request
 from functools import wraps
 from .models import User
-from . import db # db  SQLAlchemy veritabanı nesnesi.
+from . import db # db  SQLAlchemy is the database object.
 
-#  Auth işlemi için decorator
+#  decorator for basic authentication
 def basic_auth_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        auth = request.authorization #HTTP isteğindeki username ve password bilgisini alır
-
-        # 1. Kullanıcı adı ve şifre yoksa
+        auth = request.authorization #it retrieves the HTTP Basic Auth credentials from the request.
+        # 1. if the username or password is missing
         if not auth or not auth.username or not auth.password:
-            return {"message": "Kimlik doğrulama gerekli."}, 401
+            return {"message": "Authentication required."}, 401
 
-        # 2. Kullanıcıyı veritabanında ara
+        # 2. Look up the user in the database
         user = User.query.filter_by(username=auth.username).first()
 
-        # 3. Kullanıcı bulunamadıysa veya şifre yanlışsa
+        # 3. If the user is not found or the password is incorrect
         if not user or not user.check_password(auth.password):
-            return {"message": "Geçersiz kullanıcı adı veya şifre."}, 401
+            return {"message": "Invalid username or password."}, 401
 
-        # 4. Her şey doğruysa, fonksiyona devam et
+        # 4. If everything is correct, proceed to the function
         return f(user, *args, **kwargs)
 
     return decorated_function

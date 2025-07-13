@@ -6,16 +6,17 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     
-    # Veritabanı ayarı config.py dosyasından alınacak
+    # database configuration taken from config
     app.config.from_object('config.Config')
 
-    # Veritabanını başlat
+    # initialize the database
     db.init_app(app)
 
-    # routes ekle
+    # add routes
     from .routes.notes import notes_bp
     from .routes.users import users_bp
-
+    
+    # register blueprints
     app.register_blueprint(notes_bp, url_prefix='/api/v1/notes')
     app.register_blueprint(users_bp, url_prefix='/api/v1/users')
 
